@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marketplace</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <div class="logo">
+          <i class="fas fa-solid fa-shop"></i><span>e-market</span>
+        </div>
+      </div>
+      <div class="header-center">
+        <div class="search-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search for items near you" />
+          <button class="location-btn">
+            <i class="fas fa-map-marker-alt"></i>
+            New York
+          </button>
+        </div>
+      </div>
+      <div class="header-right">
+        <nav>
+          <a href="#" class="nav-item active"><i class="fas fa-home"></i></a>
+          <a href="post-listing.html" class="nav-item"
+            ><i class="fas fa-plus"></i
+          ></a>
+          <a href="#" class="nav-item"><i class="fas fa-comment"></i></a>
+          <a href="#" class="nav-item"><i class="fas fa-bell"></i></a>
+          <a href="profile.html" class="nav-item profile"
+            ><img src="images/default-avatar.jpeg" alt="Profile"
+          /></a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Categories Section -->
+      <section class="categories">
+        <div class="category-scroll">
+          <a href="#" class="category-item active">All Items</a>
+          <a href="#" class="category-item">Vehicles</a>
+          <a href="#" class="category-item">Electronics</a>
+          <a href="#" class="category-item">Furniture</a>
+          <a href="#" class="category-item">Fashion</a>
+          <a href="#" class="category-item">Real Estate</a>
+          <a href="#" class="category-item">Sports</a>
+          <a href="#" class="category-item">Games</a>
+        </div>
+      </section>
+
+      <!-- Filters and Products -->
+      <div class="content-wrapper">
+        <!-- Filters Sidebar -->
+        <aside class="filters">
+          <h3>Filters</h3>
+          <div class="filter-section">
+            <h4>Price Range</h4>
+            <div class="price-inputs">
+              <input type="number" placeholder="Min" />
+              <span>to</span>
+              <input type="number" placeholder="Max" />
+            </div>
+          </div>
+          <div class="filter-section">
+            <h4>Condition</h4>
+            <label class="checkbox-container">
+              <input type="checkbox" /> New
+            </label>
+            <label class="checkbox-container">
+              <input type="checkbox" /> Used - Like New
+            </label>
+            <label class="checkbox-container">
+              <input type="checkbox" /> Used - Good
+            </label>
+          </div>
+          <div class="filter-section">
+            <h4>Distance</h4>
+            <select>
+              <option>5 miles</option>
+              <option>10 miles</option>
+              <option>20 miles</option>
+              <option>50 miles</option>
+            </select>
+          </div>
+        </aside>
+
+        <!-- Products -->
+        <section class="products-grid">
+          <!-- Product Card -->
+          <div class="product-card">
+            <a href="listing.html">
+              <div class="product-image">
+                <img src="images/space.jpg" alt="Product" />
+              </div>
+              <div class="product-info">
+                <div class="price">$299</div>
+                <h3 class="title">iPhone 12 Pro - Excellent Condition</h3>
+                <p class="location">
+                  <i class="fas fa-map"></i>
+                  Brooklyn, NY
+                </p>
+              </div>
+            </a>
+            <button class="save-btn"><i class="far fa-heart"></i></button>
+          </div>
+
+          <div class="product-card">
+            <a href="listing.html">
+              <div class="product-image">
+                <img src="images/space.jpg" alt="Product" />
+              </div>
+              <div class="product-info">
+                <div class="price">$299</div>
+                <h3 class="title">iPhone 12 Pro - Excellent Condition</h3>
+                <p class="location">
+                  <i class="fas fa-map"></i>
+                  Brooklyn, NY
+                </p>
+              </div>
+            </a>
+            <button class="save-btn"><i class="far fa-heart"></i></button>
+          </div>
+
+          <div class="product-card">
+            <a href="listing.html">
+              <div class="product-image">
+                <img src="images/space.jpg" alt="Product" />
+              </div>
+              <div class="product-info">
+                <div class="price">$299</div>
+                <h3 class="title">iPhone 12 Pro - Excellent Condition</h3>
+                <p class="location">
+                  <i class="fas fa-map"></i>
+                  Brooklyn, NY
+                </p>
+              </div>
+            </a>
+            <button class="save-btn"><i class="far fa-heart"></i></button>
+          </div>
+
+          <div class="product-card">
+            <a href="listing.html">
+              <div class="product-image">
+                <img src="images/space.jpg" alt="Product" />
+              </div>
+              <div class="product-info">
+                <div class="price">$299</div>
+                <h3 class="title">iPhone 12 Pro - Excellent Condition</h3>
+                <p class="location">
+                  <i class="fas fa-map"></i>
+                  Brooklyn, NY
+                </p>
+              </div>
+            </a>
+            <button class="save-btn"><i class="far fa-heart"></i></button>
+          </div>
+
+          <!-- More product cards will be added dynamically -->
+        </section>
+      </div>
+    </main>
+    <button class="filter-toggle" id="filterToggle">
+      <i class="fas fa-filter"></i>
+    </button>
+
+    <script>
+      // Mobile filter toggle
+      const filterToggle = document.getElementById("filterToggle");
+      const filters = document.querySelector(".filters");
+
+      // Prevent event propagation when clicking inside filters
+      filters.addEventListener("click", (e) => {
+        e.stopPropagation();
+      });
+
+      filterToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        filters.classList.toggle("active");
+      });
+
+      // Close filters when clicking outside
+      document.addEventListener("click", (e) => {
+        if (filters.classList.contains("active")) {
+          filters.classList.remove("active");
+        }
+      });
+    </script>
+  </body>
+</html>

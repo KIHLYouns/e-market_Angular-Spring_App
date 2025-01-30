@@ -1,0 +1,72 @@
+<main class="listing-content">
+  <div class="listing-container">
+    <!-- Product Images -->
+    <div class="product-images">
+      <div class="main-image">
+        <img [src]="product.images[currentImage]" alt="MacBook Pro"/>
+        <button class="image-nav prev" (click)="prevImage()">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="image-nav next" (click)="nextImage()">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+      <div class="image-dots">
+        <button
+          class="dot"
+          *ngFor="let img of product.images; let i = index"
+          [class.active]="i === currentImage"
+          (click)="selectImage(i)"
+        ></button>
+      </div>
+    </div>
+
+    <!-- Product Info -->
+    <div class="product-info">
+      <!-- Product Header -->
+      <div class="product-header">
+        <div class="title-row">
+          <h1>{{ product.title }}</h1>
+          <button class="save-product-btn" (click)="toggleSave()">
+            <i [ngClass]="isSaved ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"></i>
+          </button>
+        </div>
+        <div class="price">${{ product.price }}</div>
+        <div class="meta-info">
+          <span class="condition">Like New</span>
+          <span class="dot-separator">•</span>
+          <span class="views">245 views</span>
+          <span class="dot-separator">•</span>
+          <span class="posted">2 days ago</span>
+        </div>
+      </div>
+
+      <!-- Seller Info -->
+      <div class="seller-info">
+        <img [src]="product.seller.avatarUrl" class="seller-avatar"/>
+        <div class="seller-details">
+          <div class="seller-name">{{ product.seller.name }}</div>
+          <div class="seller-rating">
+            <i class="fas fa-star"></i>
+            <span>{{ product.seller.rating }} ({{ product.seller.reviewCount }})</span>
+          </div>
+        </div>
+        <button class="message-btn">Contact Seller</button>
+      </div>
+
+      <!-- Product Location -->
+      <div class="product-location">
+        <h2>Location</h2>
+        <p><i class="fas fa-map-marker-alt"></i>{{ product.location }}</p>
+      </div>
+
+      <!-- Product Description -->
+      <div class="product-description">
+        <h2>Description</h2>
+        <p>
+          {{ product.description }}
+        </p>
+      </div>
+    </div>
+  </div>
+</main>

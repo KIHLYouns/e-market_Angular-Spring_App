@@ -3,11 +3,16 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+    loadChildren: () => import('./features/home/home.routes').then((m) => m.HOME_ROUTES),
   },
   {
     path: 'listing',
-    loadChildren: () => import('./listing/listing.module').then((m) => m.ListingModule),
+    loadChildren: () => import('./features/listing/listing.routes').then((m) => m.LISTING_ROUTES),
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./features/profile/profile.routes').then((m) => m.PROFILE_ROUTES),
   },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];

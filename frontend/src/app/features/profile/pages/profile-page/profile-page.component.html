@@ -1,0 +1,116 @@
+<!-- Profile Content -->
+<main class="profile-content">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-spinner">
+    <i class="fas fa-spinner fa-spin"></i>
+  </div>
+
+  <!-- Profile Header -->
+  <div class="profile-header" *ngIf="profile">
+    <div class="profile-info">
+      <div class="profile-avatar">
+        <img src="assets/images/default-avatar.jpeg" [alt]="profile.fullName">
+        <div class="avatar-overlay" *ngIf="isEditing">
+          <label class="avatar-upload-btn">
+            <i class="fas fa-camera"></i>
+            <input type="file" (change)="onAvatarChange($event)" accept="image/*" hidden>
+          </label>
+        </div>
+      </div>
+      
+      <div class="profile-details">
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" *ngIf="isEditing">
+          <div class="form-group">
+            <input type="text" formControlName="fullName" class="form-control" placeholder="Full Name">
+          </div>
+          <div class="form-group">
+            <textarea formControlName="bio" class="form-control" placeholder="Bio"></textarea>
+          </div>
+          <div class="form-group">
+            <input type="text" formControlName="location" class="form-control" placeholder="Location">
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" [disabled]="!profileForm.valid">Save</button>
+            <button type="button" class="btn btn-secondary" (click)="toggleEdit()">Cancel</button>
+          </div>
+        </form>
+
+        <div class="profile-info-display" *ngIf="!isEditing">
+          <h1>{{ profile.fullName }}</h1>
+          <p class="bio" *ngIf="profile.bio">{{ profile.bio }}</p>
+          <p class="location" *ngIf="profile.location">
+            <i class="fas fa-map-marker-alt"></i> {{ profile.location }}
+          </p>
+          <p class="join-date">
+            <i class="fas fa-calendar"></i> Joined {{ profile.joinDate | date:'mediumDate' }}
+          </p>
+          <button class="btn btn-outline-primary" (click)="toggleEdit()">
+            <i class="fas fa-edit"></i> Edit Profile
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-stats">
+      <div class="stat">
+        <span class="stat-value">{{ profile.listings?.active || 0 }}</span>
+        <span class="stat-label">Active Listings</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">{{ profile.listings?.sold || 0 }}</span>
+        <span class="stat-label">Sold Items</span>
+      </div>
+      <div class="stat" *ngIf="profile.ratings">
+        <span class="stat-value">{{ profile.ratings.average | number:'1.1-1' }}</span>
+        <span class="stat-label">Rating ({{ profile.ratings.count }} reviews)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs Navigation -->
+  <div class="profile-tabs">
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'listings'"
+      (click)="onTabChange('listings')">
+      <i class="fas fa-list"></i> My Listings
+    </button>
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'saved'"
+      (click)="onTabChange('saved')">
+      <i class="fas fa-bookmark"></i> Saved Items
+    </button>
+  </div>
+
+  <!-- Tab Content -->
+  <div class="tab-content" [ngSwitch]="activeTab">
+    <!-- Listings Tab -->
+    <div *ngSwitchCase="'listings'" class="listings-grid">
+      <div class="empty-state" *ngIf="listings.length === 0">
+        <i class="fas fa-box-open"></i>
+        <p>You haven't posted any listings yet</p>
+        <button class="btn btn-primary">Create Listing</button>
+      </div>
+      <app-product-card 
+        *ngFor="let listing of listings"
+        [product]="mapListingToProduct(listing)"
+        class="product-card-wrapper">
+      </app-product-card>
+    </div>
+
+    <!-- Saved Items Tab -->
+    <div *ngSwitchCase="'saved'" class="listings-grid">
+      <div class="empty-state" *ngIf="savedItems.length === 0">
+        <i class="fas fa-bookmark"></i>
+        <p>No saved items yet</p>
+        <button class="btn btn-primary" routerLink="/listings">Browse Listings</button>
+      </div>
+      <app-product-card 
+        *ngFor="let item of savedItems"
+        [product]="mapListingToProduct(item)"
+        class="product-card-wrapper">
+      </app-product-card>
+    </div>
+  </div>
+</main>

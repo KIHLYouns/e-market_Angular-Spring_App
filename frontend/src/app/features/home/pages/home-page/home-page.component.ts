@@ -1,23 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { ProductCardComponent } from '../../../../shared/components/product-card/product-card.component';
-import { Product, ProductFilters } from '../../models/product.interface';
 import { CommonModule } from '@angular/common';
-import { ProductsService } from '../../services/products.service';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { ItemsService } from '../../../../core/services/items.service';
+import { ItemCardComponent } from '../../../../shared/components/item-card/item-card.component';
+import { Item, ItemFilters } from '../../../../shared/models/item.interface';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [ProductCardComponent, CommonModule, FormsModule],
+  imports: [ItemCardComponent, CommonModule, FormsModule],
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css'],
 })
 export class HomePageComponent implements OnInit {
-  products: Product[] = [];
+  items: Item[] = [];
   categories: string[] = [];
 
-  filters: ProductFilters = {
+  filters: ItemFilters = {
     category: 'All Items',
     minPrice: undefined,
     maxPrice: undefined,
@@ -27,12 +27,12 @@ export class HomePageComponent implements OnInit {
   };
 
   constructor(
-    private productsService: ProductsService,
+    private itemsService: ItemsService,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.categories = this.productsService.getCategories();
+    this.categories = this.itemsService.getCategories();
 
     // Subscribe to query params for search
     this.route.queryParams.subscribe((params) => {
@@ -46,12 +46,12 @@ export class HomePageComponent implements OnInit {
       } else {
         this.filters.location = '';
       }
-      this.products = this.productsService.getProducts(this.filters);
+      this.items = this.itemsService.getItems(this.filters);
     });
   }
 
   private applyFilters() {
-    this.products = this.productsService.getProducts(this.filters);
+    this.items = this.itemsService.getItems(this.filters);
   }
 
   onCategoryChange(category: string) {

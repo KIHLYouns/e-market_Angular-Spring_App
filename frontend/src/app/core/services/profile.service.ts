@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, of } from 'rxjs';
-import { Profile } from '../models/profile.interface';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Profile } from '../../shared/models/profile.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +33,7 @@ export class ProfileService {
       id: '1',
       title: 'MacBook Pro M2',
       price: 1299.99,
-      imageUrl: 'assets/images/products/macbook.jpg',
+      imageUrl: 'assets/images/items/macbook.jpg',
       status: 'active',
       description: 'MacBook Pro M2 2023, 16GB RAM, 512GB SSD, Space Gray',
       category: 'Electronics'
@@ -42,7 +42,7 @@ export class ProfileService {
       id: '2',
       title: 'iPhone 15 Pro',
       price: 999.99,
-      imageUrl: 'assets/images/products/iphone.jpg',
+      imageUrl: 'assets/images/items/iphone.jpg',
       status: 'active',
       description: 'iPhone 15 Pro, 256GB, Titanium finish, unlocked',
       category: 'Electronics'
@@ -51,7 +51,7 @@ export class ProfileService {
       id: '3',
       title: 'AirPods Pro',
       price: 199.99,
-      imageUrl: 'assets/images/products/airpods.jpg',
+      imageUrl: 'assets/images/items/airpods.jpg',
       status: 'sold',
       description: '2nd generation AirPods Pro with noise cancellation',
       category: 'Electronics'
@@ -63,7 +63,7 @@ export class ProfileService {
       id: '4',
       title: 'iPad Air',
       price: 599.99,
-      imageUrl: 'assets/images/products/ipad.jpg',
+      imageUrl: 'assets/images/items/ipad.jpg',
       seller: 'Tech Store',
       description: 'iPad Air 5th generation, 64GB, WiFi',
       category: 'Electronics'
@@ -72,7 +72,7 @@ export class ProfileService {
       id: '5',
       title: 'Apple Watch Series 8',
       price: 399.99,
-      imageUrl: 'assets/images/products/watch.jpg',
+      imageUrl: 'assets/images/items/watch.jpg',
       seller: 'iWorld',
       description: 'Apple Watch Series 8, 45mm, GPS',
       category: 'Electronics'

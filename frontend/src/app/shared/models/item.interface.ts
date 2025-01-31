@@ -1,4 +1,4 @@
-export interface Product {
+export interface Item {
   id: number;
   title: string;
   price: number;
@@ -17,7 +17,7 @@ export interface Seller {
   avatarUrl: string;
 }
 
-export interface ProductFilters {
+export interface ItemFilters {
   category?: string;
   minPrice?: number;
   maxPrice?: number;

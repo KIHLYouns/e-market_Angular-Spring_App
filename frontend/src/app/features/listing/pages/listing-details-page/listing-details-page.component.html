@@ -1,9 +1,9 @@
 <main class="listing-content">
   <div class="listing-container">
-    <!-- Product Images -->
-    <div class="product-images">
+    <!-- Item Images -->
+    <div class="item-images">
       <div class="main-image">
-        <img [src]="product.images[currentImage]" alt="MacBook Pro"/>
+        <img [src]="item.images[currentImage]" alt="MacBook Pro"/>
         <button class="image-nav prev" (click)="prevImage()">
           <i class="fas fa-chevron-left"></i>
         </button>
@@ -14,24 +14,24 @@
       <div class="image-dots">
         <button
           class="dot"
-          *ngFor="let img of product.images; let i = index"
+          *ngFor="let img of item.images; let i = index"
           [class.active]="i === currentImage"
           (click)="selectImage(i)"
         ></button>
       </div>
     </div>
 
-    <!-- Product Info -->
-    <div class="product-info">
-      <!-- Product Header -->
-      <div class="product-header">
+    <!-- Item Info -->
+    <div class="item-info">
+      <!-- Item Header -->
+      <div class="item-header">
         <div class="title-row">
-          <h1>{{ product.title }}</h1>
-          <button class="save-product-btn" (click)="toggleSave()">
+          <h1>{{ item.title }}</h1>
+          <button class="save-item-btn" (click)="toggleSave()">
             <i [ngClass]="isSaved ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"></i>
           </button>
         </div>
-        <div class="price">${{ product.price }}</div>
+        <div class="price">${{ item.price }}</div>
         <div class="meta-info">
           <span class="condition">Like New</span>
           <span class="dot-separator">•</span>
@@ -43,28 +43,28 @@
 
       <!-- Seller Info -->
       <div class="seller-info">
-        <img [src]="product.seller.avatarUrl" class="seller-avatar"/>
+        <img [src]="item.seller.avatarUrl" class="seller-avatar"/>
         <div class="seller-details">
-          <div class="seller-name">{{ product.seller.name }}</div>
+          <div class="seller-name">{{ item.seller.name }}</div>
           <div class="seller-rating">
             <i class="fas fa-star"></i>
-            <span>{{ product.seller.rating }} ({{ product.seller.reviewCount }})</span>
+            <span>{{ item.seller.rating }} ({{ item.seller.reviewCount }})</span>
           </div>
         </div>
         <button class="message-btn">Contact Seller</button>
       </div>
 
-      <!-- Product Location -->
-      <div class="product-location">
+      <!-- Item Location -->
+      <div class="item-location">
         <h2>Location</h2>
-        <p><i class="fas fa-map-marker-alt"></i>{{ product.location }}</p>
+        <p><i class="fas fa-map-marker-alt"></i>{{ item.location }}</p>
       </div>
 
-      <!-- Product Description -->
-      <div class="product-description">
+      <!-- Item Description -->
+      <div class="item-description">
         <h2>Description</h2>
         <p>
-          {{ product.description }}
+          {{ item.description }}
         </p>
       </div>
     </div>

@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Product, ProductFilters } from '../models/product.interface';
+import { Item, ItemFilters } from '../../shared/models/item.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProductsService {
-  private mockProducts: Product[] = [
+export class ItemsService {
+  private mockItems: Item[] = [
     {
       id: 1,
       title: 'MacBook Pro 16" M2 Pro (2023)',
       price: 1999,
       images: [
-        'assets/images/product-placeholder.jpg',
-        'assets/images/product-placeholder.jpg',
-        'assets/images/product-placeholder.jpg',
+        'assets/images/item-placeholder.jpg',
+        'assets/images/item-placeholder.jpg',
+        'assets/images/item-placeholder.jpg',
       ],
       location: 'Tetouan',
       description:
@@ -32,9 +32,9 @@ export class ProductsService {
       title: 'Sony WH-1000XM5 Wireless Headphones',
       price: 349,
       images: [
-        'assets/images/product-placeholder.jpg',
-        'assets/images/product-placeholder.jpg',
-        'assets/images/product-placeholder.jpg',
+        'assets/images/item-placeholder.jpg',
+        'assets/images/item-placeholder.jpg',
+        'assets/images/item-placeholder.jpg',
       ],
       location: 'Tangier',
       description:
@@ -53,9 +53,9 @@ export class ProductsService {
       title: 'Nintendo Switch OLED (2022)',
       price: 299,
       images: [
-        'assets/images/product-placeholder.jpg',
-        'assets/images/product-placeholder.jpg',
-        'assets/images/product-placeholder.jpg',
+        'assets/images/item-placeholder.jpg',
+        'assets/images/item-placeholder.jpg',
+        'assets/images/item-placeholder.jpg',
       ],
       location: 'Casablanca',
       description:
@@ -74,9 +74,9 @@ export class ProductsService {
       title: 'Dell XPS 13 (2023)',
       price: 1299,
       images: [
-        'assets/images/product-placeholder.jpg',
-        'assets/images/product-placeholder.jpg',
-        'assets/images/product-placeholder.jpg',
+        'assets/images/item-placeholder.jpg',
+        'assets/images/item-placeholder.jpg',
+        'assets/images/item-placeholder.jpg',
       ],
       location: 'Marrakech',
       description:
@@ -104,49 +104,49 @@ export class ProductsService {
 
   constructor() {}
 
-  getProductById(id: number): Product {
-    const product = this.mockProducts.find((p) => p.id === id);
-    if (!product) {
-      throw new Error('Product not found');
+  getItemById(id: number): Item {
+    const item = this.mockItems.find((p) => p.id === id);
+    if (!item) {
+      throw new Error('Item not found');
     }
-    return product;
+    return item;
   }
 
   getCategories(): string[] {
     return this.categories;
   }
 
-  getProducts(filters?: ProductFilters): Product[] {
-    let filteredProducts = [...this.mockProducts];
+  getItems(filters?: ItemFilters): Item[] {
+    let filteredItems = [...this.mockItems];
 
     if (filters) {
       if (filters.category && filters.category !== 'All Items') {
-        filteredProducts = filteredProducts.filter(
+        filteredItems = filteredItems.filter(
           (p) => p.category === filters.category
         );
       }
 
       if (filters.minPrice) {
-        filteredProducts = filteredProducts.filter(
+        filteredItems = filteredItems.filter(
           (p) => p.price >= filters.minPrice!
         );
       }
 
       if (filters.maxPrice) {
-        filteredProducts = filteredProducts.filter(
+        filteredItems = filteredItems.filter(
           (p) => p.price <= filters.maxPrice!
         );
       }
 
       if (filters.condition && filters.condition.length > 0) {
-        filteredProducts = filteredProducts.filter((p) =>
+        filteredItems = filteredItems.filter((p) =>
           filters.condition!.includes(p.condition)
         );
       }
 
       if (filters.searchQuery && filters.searchQuery.trim()) {
         const query = filters.searchQuery.toLowerCase().trim();
-        filteredProducts = filteredProducts.filter(
+        filteredItems = filteredItems.filter(
           (p) =>
             p.title.toLowerCase().includes(query) ||
             p.description.toLowerCase().includes(query) ||
@@ -154,12 +154,12 @@ export class ProductsService {
         );
       }
       if (filters.location) {
-        filteredProducts = filteredProducts.filter(
+        filteredItems = filteredItems.filter(
           (p) => p.location === filters.location
         );
       }
     }
 
-    return filteredProducts;
+    return filteredItems;
   }
 }

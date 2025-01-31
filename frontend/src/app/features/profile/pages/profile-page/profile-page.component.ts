@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -7,15 +8,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
-import { Profile } from '../../models/profile.interface';
-import { ProfileService } from '../../services/profile.service';
-import { CommonModule } from '@angular/common';
-import { ProductCardComponent } from '../../../../shared/components/product-card/product-card.component';
+import { ProfileService } from '../../../../core/services/profile.service';
+import { ItemCardComponent } from '../../../../shared/components/item-card/item-card.component';
+import { Profile } from '../../../../shared/models/profile.interface';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, ProductCardComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, ItemCardComponent],
   templateUrl: './profile-page.component.html',
   styleUrls: ['./profile-page.component.css'],
 })
@@ -114,7 +114,7 @@ export class ProfilePageComponent implements OnInit {
     }
   }
 
-  mapListingToProduct(listing: any): any {
+  mapListingToItem(listing: any): any {
     return {
       id: listing.id,
       title: listing.title,

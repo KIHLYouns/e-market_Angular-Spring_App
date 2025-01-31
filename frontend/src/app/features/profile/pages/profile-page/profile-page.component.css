@@ -253,8 +253,8 @@ textarea.form-control {
   }
 }
 
-/* Product Card Wrapper */
-.product-card-wrapper {
+/* Item Card Wrapper */
+.item-card-wrapper {
   display: block;
   height: 100%;
 }

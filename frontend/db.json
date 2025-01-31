@@ -1,0 +1,312 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "title": "MacBook Pro 16\" M2 Pro (2023)",
+      "price": 1999,
+      "images": [
+        "assets/images/item-placeholder.jpg",
+        "assets/images/item-placeholder.jpg",
+        "assets/images/item-placeholder.jpg"
+      ],
+      "location": "Tetouan",
+      "description": "Selling my MacBook Pro 16\" with M2 Pro chip. Purchased in early 2023, barely used and in perfect condition.",
+      "category": "Electronics",
+      "condition": "Like New",
+      "status": "active",
+      "createdAt": "2024-03-15T10:30:00Z",
+      "views": 245,
+      "sellerId": 1,
+      "savedBy": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Sony WH-1000XM5",
+      "price": 349,
+      "images": [
+        "assets/images/item-placeholder.jpg",
+        "assets/images/item-placeholder.jpg"
+      ],
+      "location": "Tangier",
+      "description": "Latest model of Sony noise-canceling headphones. Used for a couple of months, still in excellent condition.",
+      "category": "Electronics",
+      "condition": "Good",
+      "status": "active",
+      "createdAt": "2024-03-14T15:20:00Z",
+      "views": 122,
+      "sellerId": 2,
+      "savedBy": [
+        1
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Toyota Corolla 2022",
+      "price": 4999,
+      "images": [
+        "assets/images/item-placeholder.jpg",
+        "assets/images/item-placeholder.jpg"
+      ],
+      "location": "Tangier",
+      "description": "Used Toyota Corolla for a year, in good condition.",
+      "category": "Vehicles",
+      "condition": "Good",
+      "status": "sold",
+      "createdAt": "2024-03-13T09:45:00Z",
+      "views": 78,
+      "sellerId": 1,
+      "savedBy": [
+        2
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Nike Air Max 2023",
+      "price": 120,
+      "images": [
+        "assets/images/item-placeholder.jpg",
+        "assets/images/item-placeholder.jpg"
+      ],
+      "location": "Casablanca",
+      "description": "Brand new Nike Air Max 2023, never worn.",
+      "category": "Fashion",
+      "condition": "New",
+      "status": "active",
+      "createdAt": "2024-03-16T12:00:00Z",
+      "views": 50,
+      "sellerId": 3,
+      "savedBy": [
+        1
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Canon EOS R5 Camera",
+      "price": 3899,
+      "images": [
+        "assets/images/item-placeholder.jpg",
+        "assets/images/item-placeholder.jpg"
+      ],
+      "location": "Marrakech",
+      "description": "High-performance Canon EOS R5 mirrorless camera with 45MP sensor. Excellent condition.",
+      "category": "Electronics",
+      "condition": "Like New",
+      "status": "active",
+      "createdAt": "2024-03-17T14:00:00Z",
+      "views": 60,
+      "sellerId": 2,
+      "savedBy": [1, 3]
+    },
+    {
+      "id": 6,
+      "title": "Bose SoundLink Revolve",
+      "price": 199,
+      "images": [
+        "assets/images/item-placeholder.jpg",
+        "assets/images/item-placeholder.jpg"
+      ],
+      "location": "Rabat",
+      "description": "Portable Bose speaker with 360-degree sound. Used once, in perfect working condition.",
+      "category": "Electronics",
+      "condition": "Like New",
+      "status": "active",
+      "createdAt": "2024-03-18T09:30:00Z",
+      "views": 30,
+      "sellerId": 3,
+      "savedBy": [1, 2]
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "username": "kihl_youns",
+      "email": "kihl.youns@example.com",
+      "fullName": "Kihl Youns",
+      "avatar": "assets/images/default-avatar.jpeg",
+      "bio": "Passionate about buying and selling unique items. Always looking for great deals!",
+      "location": "Tetouan",
+      "joinDate": "2024-01-01T00:00:00Z",
+      "listings": {
+        "active": 2,
+        "sold": 1
+      },
+      "savedItems": [
+        2
+      ],
+      "ratings": {
+        "average": 4.8,
+        "count": 5
+      }
+    },
+    {
+      "id": 2,
+      "username": "jane_doe",
+      "email": "jane.doe@example.com",
+      "fullName": "Jane Doe",
+      "avatar": "assets/images/default-avatar.jpeg",
+      "bio": "Passionate about buying and selling unique items. Always looking for great deals!",
+      "location": "Tangier",
+      "joinDate": "2024-01-01T00:00:00Z",
+      "listings": {
+        "active": 1,
+        "sold": 0
+      },
+      "savedItems": [
+        1
+      ],
+      "ratings": {
+        "average": 4.5,
+        "count": 3
+      }
+    },
+    {
+      "id": 3,
+      "username": "john_smith",
+      "email": "john.smith@example.com",
+      "fullName": "John Smith",
+      "avatar": "assets/images/default-avatar.jpeg",
+      "bio": "Passionate about buying and selling unique items. Always looking for great deals!",
+      "location": "Casablanca",
+      "joinDate": "2024-01-01T00:00:00Z",
+      "listings": {
+        "active": 1,
+        "sold": 0
+      },
+      "savedItems": [
+        4
+      ],
+      "ratings": {
+        "average": 0,
+        "count": 0
+      }
+    },
+    {
+      "id": 4,
+      "username": "alice_wonder",
+      "email": "alice.wonder@example.com",
+      "fullName": "Alice Wonder",
+      "avatar": "assets/images/default-avatar.jpeg",
+      "bio": "Avid collector of vintage electronics and gadgets.",
+      "location": "Fes",
+      "joinDate": "2024-02-15T08:00:00Z",
+      "listings": {
+        "active": 1,
+        "sold": 0
+      },
+      "savedItems": [1, 5],
+      "ratings": {
+        "average": 4.9,
+        "count": 10
+      }
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "Electronics"
+    },
+    {
+      "id": 2,
+      "name": "Vehicles"
+    },
+    {
+      "id": 3,
+      "name": "Fashion"
+    },
+    {
+      "id": 4,
+      "name": "Home & Garden"
+    },
+    {
+      "id": 5,
+      "name": "Sports & Outdoors"
+    },
+    {
+      "id": 6,
+      "name": "Other"
+    }
+  ],
+  "reviews": [
+    {
+      "id": 1,
+      "reviewerId": 2,
+      "sellerId": 1,
+      "rating": 5,
+      "comment": "Great seller, item as described",
+      "itemId": 1,
+      "createdAt": "2024-03-16T09:20:00Z"
+    },
+    {
+      "id": 2,
+      "reviewerId": 1,
+      "sellerId": 2,
+      "rating": 4,
+      "comment": "Good communication, item in good condition",
+      "itemId": 2,
+      "createdAt": "2024-03-17T10:00:00Z"
+    },
+    {
+      "id": 3,
+      "reviewerId": 3,
+      "sellerId": 2,
+      "rating": 5,
+      "comment": "Excellent seller, fast shipping!",
+      "itemId": 5,
+      "createdAt": "2024-03-18T12:00:00Z"
+    },
+    {
+      "id": 4,
+      "reviewerId": 4,
+      "sellerId": 1,
+      "rating": 5,
+      "comment": "Taught me a lot about the item, very helpful",
+      "itemId": 1,
+      "createdAt": "2024-03-19T09:20:00Z"
+    }
+  ],
+  "locations": [
+    {
+      "id": 1,
+      "city": "Tetouan"
+    },
+    {
+      "id": 2,
+      "city": "Tangier"
+    },
+    {
+      "id": 3,
+      "city": "Casablanca"
+    },
+    {
+      "id": 4,
+      "city": "Rabat"
+    },
+    {
+      "id": 5,
+      "city": "Marrakech"
+    },
+    {
+      "id": 6,
+      "city": "Agadir"
+    },
+    {
+      "id": 7,
+      "city": "Fes"
+    },
+    {
+      "id": 8,
+      "city": "Laayoune"
+    },
+    {
+      "id": 9,
+      "city": "Kenitra"
+    },
+    {
+      "id": 10,
+      "city": "Mohammedia"
+    }
+  ]
+}

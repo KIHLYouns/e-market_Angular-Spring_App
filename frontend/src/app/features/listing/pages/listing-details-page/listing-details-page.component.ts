@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ProductsService } from '../../../home/services/products.service';
-import { Product } from '../../../home/models/product.interface';
+import { ItemsService } from '../../../../core/services/items.service';
+import { Item } from '../../../../shared/models/item.interface';
 
 @Component({
   selector: 'app-listing-page',
@@ -12,24 +12,24 @@ import { Product } from '../../../home/models/product.interface';
   styleUrls: ['./listing-details-page.component.css'],
 })
 export class ListingDetailsPageComponent implements OnInit {
-  product!: Product;
+  item!: Item;
   isSaved: boolean = false;
   currentImage: number = 0;
 
   constructor(
     private route: ActivatedRoute,
-    private productsService: ProductsService
+    private itemsService: ItemsService
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       const id = +params['id'];
-      this.fetchProductDetails(id);
+      this.fetchItemDetails(id);
     });
   }
 
-  private fetchProductDetails(id: number): void {
-    this.product = this.productsService.getProductById(id);
+  private fetchItemDetails(id: number): void {
+    this.item = this.itemsService.getItemById(id);
   }
 
   toggleSave(): void {
@@ -38,12 +38,12 @@ export class ListingDetailsPageComponent implements OnInit {
 
   prevImage(): void {
     this.currentImage =
-      (this.currentImage - 1 + this.product.images.length) %
-      this.product.images.length;
+      (this.currentImage - 1 + this.item.images.length) %
+      this.item.images.length;
   }
 
   nextImage(): void {
-    this.currentImage = (this.currentImage + 1) % this.product.images.length;
+    this.currentImage = (this.currentImage + 1) % this.item.images.length;
   }
 
   selectImage(index: number): void {

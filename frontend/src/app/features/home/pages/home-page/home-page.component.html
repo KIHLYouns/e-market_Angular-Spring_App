@@ -60,7 +60,7 @@
     </div>
   </aside>
 
-  <div class="products-wrapper">
+  <div class="items-wrapper">
     <!-- Categories -->
     <section class="categories">
       <div class="category-scroll">
@@ -75,10 +75,10 @@
       </div>
     </section>
 
-    <!-- Products Grid -->
-    <section class="products-grid">
-      <app-product-card *ngFor="let product of products" [product]="product">
-      </app-product-card>
+    <!-- Items Grid -->
+    <section class="items-grid">
+      <app-item-card *ngFor="let item of items" [item]="item">
+      </app-item-card>
     </section>
   </div>
 </main>

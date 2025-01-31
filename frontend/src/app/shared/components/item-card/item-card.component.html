@@ -1,0 +1,19 @@
+<div class="item-card" [routerLink]="['/listing', item.id]">
+  <div class="item-image">
+  <img [src]="item.images[0]" alt="Item"/>
+  </div>
+  <div class="item-info">
+    <div class="title-row">
+      <h3 class="title">{{ item.title }}</h3>
+    <div class="price">{{ item.price }}</div>
+
+    </div>
+
+    <div class="meta-info">
+      <p class="location">
+      <i class="fas fa-map"></i>
+        {{ item.location }}
+      </p>
+  </div>
+</div>
+</div>

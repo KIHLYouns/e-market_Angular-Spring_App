@@ -31,7 +31,8 @@
   padding: .5rem .5rem;
   border-radius: 15px;
   background: var(--color-white);
-  white-space: nowrap
+  white-space: nowrap;
+  cursor: pointer;
 }
 
 .category-item:hover {
@@ -96,10 +97,10 @@
 .checkbox-container {
   display: flex;
   align-items: center;
-  font-size: var(--font-size-sm);
   gap: .5rem;
   margin-bottom: .5rem;
-  color: var(--color-black)
+  color: var(--color-sage);
+  cursor: pointer
 }
 
 .filter-section select {
@@ -135,7 +136,8 @@
   border-radius: 6px;
   overflow: hidden;
   transition: all .2s ease;
-  box-shadow: 0 2px 4px var(--shadow-light)
+  box-shadow: 0 2px 4px var(--shadow-light);
+  cursor: pointer
 }
 
 .product-card a {

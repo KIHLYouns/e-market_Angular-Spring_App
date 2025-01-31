@@ -1,0 +1,170 @@
+<main class="post-content">
+  <div class="post-container">
+    <div class="post-header">
+      <h1>Create New Listing</h1>
+      <p>Add details about your item to create a listing</p>
+    </div>
+
+    <form class="post-form" [formGroup]="listingForm" (ngSubmit)="onSubmit()">
+      <!-- Photos Section -->
+      <div class="form-section">
+        <h2>Photos</h2>
+        <p class="section-desc">
+          Add up to {{ maxPhotos }} photos of your item
+        </p>
+        <div class="photo-upload-grid">
+          <!-- Cover Photo -->
+          <div
+            class="photo-upload-box primary"
+            [class.has-image]="photoUrls[0]"
+          >
+            <input
+              type="file"
+              id="mainPhoto"
+              accept="image/*"
+              (change)="onPhotoSelected($event, 0)"
+              hidden
+            />
+            <label for="mainPhoto">
+              <ng-container *ngIf="!photoUrls[0]">
+                <i class="fas fa-camera"></i>
+                <span>Add Cover Photo</span>
+              </ng-container>
+              <img
+                *ngIf="photoUrls[0]"
+                [src]="getPhotoUrl(0)"
+                alt="Cover photo"
+              />
+              <button
+                *ngIf="photoUrls[0]"
+                type="button"
+                class="remove-photo"
+                (click)="removePhoto(0)"
+              >
+                <i class="fas fa-times"></i>
+              </button>
+            </label>
+          </div>
+
+          <!-- Additional Photos -->
+          <ng-container *ngFor="let photo of photos.slice(1); let i = index">
+            <div class="photo-upload-box has-image">
+              <img [src]="getPhotoUrl(i + 1)" alt="Additional photo" />
+              <button
+                type="button"
+                class="remove-photo"
+                (click)="removePhoto(i + 1)"
+              >
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </ng-container>
+
+          <!-- Add Photo Button -->
+          <div class="photo-upload-box" *ngIf="photos.length < maxPhotos">
+            <input
+              type="file"
+              [id]="'photo' + photos.length"
+              accept="image/*"
+              (change)="onPhotoSelected($event, photos.length)"
+              hidden
+            />
+            <label [for]="'photo' + photos.length">
+              <i class="fas fa-plus"></i>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Details Section -->
+      <div class="form-section">
+        <h2>Item Details</h2>
+
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input
+            type="text"
+            id="title"
+            formControlName="title"
+            placeholder="What are you selling?"
+            required
+          />
+          <div class="char-count">{{ getTitleCharCount() }}</div>
+        </div>
+
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select id="category" formControlName="category" required>
+            <option value="">Select a category</option>
+            <option *ngFor="let category of categories" [value]="category">
+              {{ category }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Condition</label>
+          <div class="condition-tabs">
+            <button
+              type="button"
+              *ngFor="let condition of conditions"
+              [class.active]="listingForm.get('condition')?.value === condition"
+              (click)="listingForm.get('condition')?.setValue(condition)"
+            >
+              {{ condition }}
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea
+            id="description"
+            formControlName="description"
+            placeholder="Describe your item in detail"
+            rows="4"
+            required
+          ></textarea>
+          <div class="char-count">{{ getDescriptionCharCount() }}</div>
+        </div>
+
+        <div class="form-group">
+          <label for="price">Price</label>
+          <div class="price-input">
+            <span class="currency">$</span>
+            <input
+              type="number"
+              id="price"
+              formControlName="price"
+              placeholder="0.00"
+              min="0"
+              step="0.01"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="location">Location</label>
+          <select id="location" formControlName="location" required>
+            <option value="">Select a location</option>
+            <option *ngFor="let city of cities" [value]="city">
+              {{ city }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="submit-btn"
+          [disabled]="!listingForm.valid || photos.length === 0"
+        >
+          Post Listing
+        </button>
+      </div>
+    </form>
+  </div>
+</main>

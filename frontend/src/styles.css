@@ -30,8 +30,8 @@
   --shadow-dark: rgba(69, 71, 75, 0.2);
 
   /* Typography */
-  --font-primary: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-  Oxygen, Ubuntu, Cantarell, sans-serif;
+  --font-primary: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
@@ -54,7 +54,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
 }
@@ -64,7 +65,8 @@ body {
   background-color: var(--color-white);
   color: var(--color-black);
   min-height: 100vh;
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-medium);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -72,4 +74,8 @@ body {
 
 .fas {
   font-size: var(--font-size-lg);
+}
+
+input, select, textarea, button {
+  font-family: var(--font-primary);
 }

@@ -24,7 +24,7 @@
 }
 
 .logo i {
-  color: #fbbf24;
+  color: var(--color-yellow);
   font-size: 1.25em;
 }
 
@@ -59,7 +59,11 @@
   padding: .5rem;
   font-size: .9rem;
   outline: none;
-  color: #1f2937;
+  color: var(--color-black);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
 }
 
 .search-bar input::placeholder {
@@ -84,7 +88,7 @@
 }
 
 .location-btn:hover {
-  color: #1f2937;
+  color: var(--color-black);
 }
 
 .location-btn i {
@@ -117,12 +121,12 @@
 
 .city-item:hover {
   background-color: #f3f4f6;
-  color: #1f2937;
+  color: var(--color-black);
 }
 
 .city-item.active {
   background-color: #fef3c7;
-  color: #1f2937;
+  color: var(--color-black);
   font-weight: 500;
 }
 

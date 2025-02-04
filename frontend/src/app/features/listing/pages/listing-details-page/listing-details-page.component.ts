@@ -1,11 +1,13 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ItemsService } from '../../../../core/services/items.service';
 import { Item } from '../../../../shared/models/item.interface';
+import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-listing-page',
+  selector: 'app-listing-details-page',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './listing-details-page.component.html',
@@ -22,18 +24,25 @@ export class ListingDetailsPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      const id = +params['id'];
-      this.fetchItemDetails(id);
+    this.route.params.pipe(
+      switchMap(params => {
+        const id = +params['id'];
+        return this.itemsService.getItemById(id);
+      })
+    ).subscribe({
+      next: (item) => {
+        this.item = item;
+        // Optionally, determine if the item is saved by the current user
+      },
+      error: (err) => {
+        console.error('Error fetching item details:', err);
+      }
     });
-  }
-
-  private fetchItemDetails(id: number): void {
-    this.item = this.itemsService.getItemById(id);
   }
 
   toggleSave(): void {
     this.isSaved = !this.isSaved;
+    // Implement save/unsave logic via ProfileService
   }
 
   prevImage(): void {

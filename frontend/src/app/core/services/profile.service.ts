@@ -1,114 +1,138 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { Profile } from '../../shared/models/profile.interface';
+import { Observable, forkJoin, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { Item } from '../../shared/models/item.interface';
+import { User } from '../../shared/models/user.interface';
+import { environment } from '../../environment/environment.dev';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProfileService {
-  getUserReviews(id: string) {
-    throw new Error('Method not implemented.');
-  }
-  private mockProfile: Profile = {
-    id: '1',
-    username: 'kihl_youns',
-    email: 'kihl.youns@example.com',
-    fullName: 'Kihl Youns',
-    avatar: 'assets/images/default-avatar.jpeg',
-    bio: 'Passionate about buying and selling unique items. Always looking for great deals!',
-    location: 'Paris, France',
-    joinDate: new Date('2025-01-01'),
-    listings: {
-      active: 2,
-      sold: 1
-    },
-    ratings: {
-      average: 4.8,
-      count: 5
-    }
-  };
+  private itemsUrl = `${environment.apiUrl}/items`;
+  private usersUrl = `${environment.apiUrl}/users`;
+  
+  private currentUserId = 1; // Replace with actual user ID management
 
-  private mockListings = [
-    {
-      id: '1',
-      title: 'MacBook Pro M2',
-      price: 1299.99,
-      imageUrl: 'assets/images/items/macbook.jpg',
-      status: 'active',
-      description: 'MacBook Pro M2 2023, 16GB RAM, 512GB SSD, Space Gray',
-      category: 'Electronics'
-    },
-    {
-      id: '2',
-      title: 'iPhone 15 Pro',
-      price: 999.99,
-      imageUrl: 'assets/images/items/iphone.jpg',
-      status: 'active',
-      description: 'iPhone 15 Pro, 256GB, Titanium finish, unlocked',
-      category: 'Electronics'
-    },
-    {
-      id: '3',
-      title: 'AirPods Pro',
-      price: 199.99,
-      imageUrl: 'assets/images/items/airpods.jpg',
-      status: 'sold',
-      description: '2nd generation AirPods Pro with noise cancellation',
-      category: 'Electronics'
-    }
-  ];
+  constructor(private http: HttpClient) {}
 
-  private mockSavedItems = [
-    {
-      id: '4',
-      title: 'iPad Air',
-      price: 599.99,
-      imageUrl: 'assets/images/items/ipad.jpg',
-      seller: 'Tech Store',
-      description: 'iPad Air 5th generation, 64GB, WiFi',
-      category: 'Electronics'
-    },
-    {
-      id: '5',
-      title: 'Apple Watch Series 8',
-      price: 399.99,
-      imageUrl: 'assets/images/items/watch.jpg',
-      seller: 'iWorld',
-      description: 'Apple Watch Series 8, 45mm, GPS',
-      category: 'Electronics'
-    }
-  ];
-
-  private profileSubject = new BehaviorSubject<Profile | null>(this.mockProfile);
-  profile$ = this.profileSubject.asObservable();
-
-  constructor() {}
-
-  getCurrentProfile(): Observable<Profile> {
-    return of(this.mockProfile);
+  /**
+   * Retrieves the current user's profile.
+   * @returns Observable<User>
+   */
+  getCurrentProfile(): Observable<User> {
+    return this.http.get<User>(`${this.usersUrl}/${this.currentUserId}`);
   }
 
-  updateProfile(profileData: Partial<Profile>): Observable<Profile> {
-    this.mockProfile = {
-      ...this.mockProfile,
-      ...profileData
-    };
-    this.profileSubject.next(this.mockProfile);
-    return of(this.mockProfile);
+  /**
+   * Updates the current user's profile.
+   * @param profileData - Partial profile data to update.
+   * @returns Observable<User>
+   */
+  updateProfile(profileData: Partial<User>): Observable<User> {
+    return this.http.patch<User>(
+      `${this.usersUrl}/${this.currentUserId}`,
+      profileData
+    );
   }
 
-  updateAvatar(file: File): Observable<{ avatarUrl: string }> {
-    const mockResponse = { 
-      avatarUrl: `assets/images/profile/${file.name}` 
-    };
-    return of(mockResponse);
+  /**
+   * Updates the user's avatar.
+   * @param avatarUrl - The new avatar URL.
+   * @returns Observable<User>
+   */
+  updateAvatar(avatarUrl: string): Observable<User> {
+    return this.http.patch<User>(`${this.usersUrl}/${this.currentUserId}`, {
+      avatar: avatarUrl,
+    });
   }
 
-  getSavedItems(): Observable<any[]> {
-    return of(this.mockSavedItems);
+  /**
+   * Retrieves the current user's listings (products).
+   * @returns Observable<Item[]>
+   */
+  getListings(): Observable<Item[]> {
+    const listingsUrl = `${this.itemsUrl}?sellerId=${this.currentUserId}`;
+    return this.http.get<Item[]>(listingsUrl).pipe(
+      switchMap((items) => {
+        const itemsWithSellers$ = items.map((item) =>
+          this.http
+            .get<User>(`${this.usersUrl}/${item.sellerId}`)
+            .pipe(map((seller) => ({ ...item, seller })))
+        );
+        return forkJoin(itemsWithSellers$);
+      })
+    );
   }
 
-  getListings(): Observable<any[]> {
-    return of(this.mockListings);
+  /**
+   * Retrieves the current user's saved items.
+   * @returns Observable<Item[]>
+   */
+  getSavedItems(): Observable<Item[]> {
+    return this.getCurrentProfile().pipe(
+      switchMap((profile) => {
+        if (profile.savedItems.length === 0) {
+          return of([]);
+        }
+        const savedItemsObservables = profile.savedItems.map((id) =>
+          this.http
+            .get<Item>(`${this.itemsUrl}/${id}`)
+            .pipe(
+              switchMap((item) =>
+                this.http
+                  .get<User>(`${this.usersUrl}/${item.sellerId}`)
+                  .pipe(map((seller) => ({ ...item, seller })))
+              )
+            )
+        );
+        return forkJoin(savedItemsObservables);
+      })
+    );
+  }
+
+  /**
+   * Adds an item to the user's saved items.
+   * @param itemId - The ID of the item to save.
+   * @returns Observable<void>
+   */
+  addSavedItem(itemId: number): Observable<void> {
+    return this.getCurrentProfile().pipe(
+      switchMap((profile) => {
+        if (!profile.savedItems.includes(itemId)) {
+          const updatedSavedListings = [...profile.savedItems, itemId];
+          return this.http
+            .patch(`${this.usersUrl}/${this.currentUserId}`, {
+              savedItems: updatedSavedListings,
+            })
+            .pipe(map(() => {}));
+        }
+        return of();
+      })
+    );
+  }
+
+  /**
+   * Removes an item from the user's saved items.
+   * @param itemId - The ID of the item to remove.
+   * @returns Observable<void>
+   */
+  removeSavedItem(itemId: number): Observable<void> {
+    return this.getCurrentProfile().pipe(
+      switchMap((profile) => {
+        if (!profile.savedItems.includes(itemId)) {
+          return of();
+        }
+        const updatedSavedListings = profile.savedItems.filter(
+          (id) => id !== itemId
+        );
+        return this.http
+          .patch(`${this.usersUrl}/${this.currentUserId}`, {
+            savedItems: updatedSavedListings,
+          })
+          .pipe(map(() => {}));
+      })
+    );
   }
 }

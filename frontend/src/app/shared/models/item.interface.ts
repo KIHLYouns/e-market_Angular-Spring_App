@@ -1,3 +1,5 @@
+import { User } from './user.interface';
+
 export interface Item {
   id: number;
   title: string;
@@ -6,15 +8,13 @@ export interface Item {
   location: string;
   description: string;
   category: string;
-  condition: 'New' | 'Like New' | 'Good' | 'Fair';
-  seller: Seller;
-}
-
-export interface Seller {
-  name: string;
-  rating: number;
-  reviewCount: number;
-  avatarUrl: string;
+  condition: string;
+  status: string;
+  createdAt: string;
+  views: number;
+  sellerId: number;
+  savedBy: number[];
+  seller?: User;
 }
 
 export interface ItemFilters {
@@ -24,4 +24,5 @@ export interface ItemFilters {
   condition?: string[];
   searchQuery?: string;
   location?: string;
+  sort?: string;
 }

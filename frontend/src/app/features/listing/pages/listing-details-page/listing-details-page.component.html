@@ -1,9 +1,9 @@
-<main class="listing-content">
+<main class="listing-content" *ngIf="item">
   <div class="listing-container">
     <!-- Item Images -->
     <div class="item-images">
       <div class="main-image">
-        <img [src]="item.images[currentImage]" alt="MacBook Pro"/>
+        <img [src]="item.images[currentImage]" alt="{{ item.title }}" />
         <button class="image-nav prev" (click)="prevImage()">
           <i class="fas fa-chevron-left"></i>
         </button>
@@ -28,27 +28,37 @@
         <div class="title-row">
           <h1>{{ item.title }}</h1>
           <button class="save-item-btn" (click)="toggleSave()">
-            <i [ngClass]="isSaved ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"></i>
+            <i
+              [ngClass]="isSaved ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"
+            ></i>
           </button>
         </div>
         <div class="price">${{ item.price }}</div>
         <div class="meta-info">
-          <span class="condition">Like New</span>
+          <span class="condition">{{ item.condition }}</span>
           <span class="dot-separator">•</span>
-          <span class="views">245 views</span>
+          <span class="views">{{ item.views }} views</span>
           <span class="dot-separator">•</span>
-          <span class="posted">2 days ago</span>
+          <span class="posted">posted at {{ item.createdAt | date : "longDate" }}</span>
         </div>
       </div>
 
       <!-- Seller Info -->
       <div class="seller-info">
-        <img [src]="item.seller.avatarUrl" class="seller-avatar"/>
         <div class="seller-details">
-          <div class="seller-name">{{ item.seller.name }}</div>
+          <img
+            [src]="item.seller?.avatar || 'assets/images/default-avatar.jpeg'"
+            class="seller-avatar"
+            alt="{{ item.seller?.fullName }}"
+          />
+          <div class="seller-name">{{ item.seller?.fullName }}</div>
           <div class="seller-rating">
             <i class="fas fa-star"></i>
-            <span>{{ item.seller.rating }} ({{ item.seller.reviewCount }})</span>
+            <span
+              >{{ item.seller?.ratings?.average }} ({{
+                item.seller?.ratings?.count
+              }})</span
+            >
           </div>
         </div>
         <button class="message-btn">Contact Seller</button>

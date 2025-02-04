@@ -12,7 +12,6 @@
       <input
         type="text"
         [(ngModel)]="searchQuery"
-        (ngModelChange)="onSearchInput()"
         name="search"
         placeholder="Search for items near you"
       />
@@ -24,17 +23,17 @@
           (click)="toggleCityDropdown()"
         >
           <i class="fas fa-map-marker-alt"></i>
-          {{ location }}
+          {{ location || 'Location' }}
           <i class="fas fa-chevron-down"></i>
         </button>
 
         <div class="city-dropdown" *ngIf="showCityDropdown">
           <div class="city-list">
             <div
-              *ngFor="let city of moroccanCities"
+              *ngFor="let city of cities"
               class="city-item"
-              (click)="selectCity(city)"
-              [class.active]="city === location"
+              (click)="onSelectCity(city)"
+              [class.active]="(city === 'All' && location === '') || (city === location)"
             >
               {{ city }}
             </div>
@@ -71,7 +70,7 @@
         routerLink="/profile"
         routerLinkActive="active"
         class="nav-item profile"
-        ><img src="assets/images/default-avatar.jpeg" alt="Profile"
+        ><img [src]="profileImage" alt="Profile"
       /></a>
     </nav>
   </div>

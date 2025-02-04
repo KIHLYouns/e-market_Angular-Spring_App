@@ -1,13 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 :root {
   /* Primary Colors */
+  --color-pure-white: #ffffff;
   --color-white: #f5f7f8;
   --color-yellow: #f4ce14;
   --color-sage: #495e57;
   --color-black: #45474b;
 
   /* Color Variations */
-  --color-white-dim: #e8ebed;
+  --color-white-dim: #f3f4f6;
   --color-yellow-light: #f7dc4d;
   --color-yellow-dark: #d4b210;
   --color-sage-light: #5b726a;
@@ -32,6 +33,7 @@
   /* Typography */
   --font-primary: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, sans-serif;
+  --font-size-xxs: 0.625rem;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;

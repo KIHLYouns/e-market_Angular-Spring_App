@@ -152,7 +152,6 @@
 }
 
 .message-btn {
-  flex: 1;
   padding: 0.75rem 1.5rem;
   background: var(--color-yellow);
   border: none;
@@ -198,6 +197,7 @@
 /* Seller Info */
 .seller-info {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 0.5rem;
   padding: 1rem;
@@ -214,7 +214,9 @@
 }
 
 .seller-details {
-  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .seller-name {
@@ -277,24 +279,6 @@
 
 .item-location i {
   color: var(--color-yellow);
-}
-
-/* Similar Items */
-.similar-items {
-  margin-top: 2rem;
-}
-
-.similar-items h2 {
-  font-size: var(--font-size-xl);
-  color: var(--color-black);
-  margin-bottom: 1rem;
-  font-weight: var(--font-semibold);
-}
-
-.items-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
 }
 
 /* Responsive Design */

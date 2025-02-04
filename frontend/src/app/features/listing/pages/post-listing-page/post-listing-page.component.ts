@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ItemsService } from '../../../../core/services/items.service';
 
 @Component({
   selector: 'app-post-listing',
@@ -22,32 +23,14 @@ export class PostListingPageComponent implements OnInit, OnDestroy {
   photoUrls: string[] = [];
   maxPhotos = 3;
   conditions = ['New', 'Like New', 'Good', 'Fair'];
-  categories = [
-    'Vehicles',
-    'Electronics',
-    'Furniture',
-    'Fashion',
-    'Real Estate',
-    'Sports',
-    'Games',
-  ];
-  cities: string[] = [
-    'Tetouan',
-    'Tangier',
-    'Casablanca',
-    'Rabat',
-    'Fez',
-    'Marrakech',
-    'Agadir',
-    'Oujda',
-    'Meknes',
-    'Kenitra',
-    'Sale',
-    'Nador',
-    'Al Hoceima',
-  ];
+  categories: string[] = [];
+  cities: string[] = [];
 
-  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {
+  constructor(
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef,
+    private itemsService: ItemsService
+  ) {
     this.listingForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(100)]],
       description: ['', [Validators.required, Validators.maxLength(500)]],
@@ -58,7 +41,14 @@ export class PostListingPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.itemsService.getCategories().subscribe((categories) => {
+      this.categories = categories;
+    });
+    this.itemsService.getLocations().subscribe((locations) => {
+      this.cities = locations;
+    });
+  }
 
   onPhotoSelected(event: Event, index: number): void {
     const input = event.target as HTMLInputElement;

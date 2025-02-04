@@ -13,6 +13,10 @@ export const routes: Routes = [
     path: 'profile',
     loadChildren: () => import('./features/profile/profile.routes').then((m) => m.PROFILE_ROUTES),
   },
+  {
+    path: 'messages',
+    loadChildren: () => import('./features/messages/messages.routes').then((m) => m.MESSAGES_ROUTES),
+  },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];

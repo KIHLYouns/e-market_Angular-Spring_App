@@ -1,0 +1,46 @@
+<div class="conversation-container">
+  @if (conversation) {
+    <div class="conversation-header">
+      <img 
+        [src]="getOtherParticipant().avatar" 
+        [alt]="getOtherParticipant().username"
+        class="avatar"
+      >
+      <div class="user-info">
+        <h3>{{ getOtherParticipant().username }}</h3>
+      </div>
+    </div>
+  }
+
+  <div class="messages" #messagesContainer>
+    @for (message of messages; track message.id) {
+      <div 
+        class="message" 
+        [class.sent]="message.senderId === currentUserId"
+        [class.received]="message.senderId !== currentUserId"
+      >
+        <div class="message-content">
+          {{ message.content }}
+          <span class="timestamp">{{ message.timestamp | date:'shortTime' }}</span>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="message-input">
+    <input
+      type="text"
+      [(ngModel)]="newMessage"
+      (keyup.enter)="sendMessage()"
+      placeholder="Type a message..."
+      class="input-field"
+    >
+    <button 
+      (click)="sendMessage()"
+      class="send-button"
+      [disabled]="!newMessage.trim()"
+    >
+      Send
+    </button>
+  </div>
+</div>

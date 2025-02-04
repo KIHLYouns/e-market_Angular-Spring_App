@@ -1,73 +1,83 @@
 <main class="main-content">
-  <aside class="filters">
-    <h3>Filters</h3>
+  <aside
+    class="filters"
+    [class.active]="isMobileFiltersOpen"
+    [class.has-filters]="hasFilters"
+  >
+    <div class="filters-header">
+      <h3>Filters</h3>
+      <button
+        *ngIf="hasFilters"
+        class="clear-filters-btn"
+        (click)="clearFilters()"
+      >
+        Clear All
+      </button>
+    </div>
 
     <!-- Price Filter -->
     <div class="filter-section">
       <h4>Price Range</h4>
       <div class="price-inputs">
-        <input
-          type="number"
-          [(ngModel)]="filters.minPrice"
-          (change)="onPriceChange()"
-          placeholder="Min"
-        />
-        <span>to</span>
-        <input
-          type="number"
-          [(ngModel)]="filters.maxPrice"
-          (change)="onPriceChange()"
-          placeholder="Max"
-        />
+        <div class="input-group">
+          <input
+            type="number"
+            [(ngModel)]="filters.minPrice"
+            (input)="onPriceChange()"
+            placeholder="Min"
+            min="0"
+          />
+        </div>
+        <span class="separator">to</span>
+        <div class="input-group">
+          <input
+            type="number"
+            [(ngModel)]="filters.maxPrice"
+            (input)="onPriceChange()"
+            placeholder="Max"
+            min="0"
+          />
+        </div>
       </div>
     </div>
 
     <!-- Condition Filter -->
     <div class="filter-section">
       <h4>Condition</h4>
-      <label class="checkbox-container">
-        <input
-          type="checkbox"
-          #checkboxNew
-          (change)="onConditionChange('New', checkboxNew.checked)"
-        />
-        New
-      </label>
-      <label class="checkbox-container">
-        <input
-          type="checkbox"
-          #checkboxLikeNew
-          (change)="onConditionChange('Like New', checkboxLikeNew.checked)"
-        />
-        Used - Like New
-      </label>
-      <label class="checkbox-container">
-        <input
-          type="checkbox"
-          #checkboxGood
-          (change)="onConditionChange('Good', checkboxGood.checked)"
-        />
-        Used - Good
-      </label>
-      <label class="checkbox-container">
-        <input
-          type="checkbox"
-          #checkboxFair
-          (change)="onConditionChange('Fair', checkboxFair.checked)"
-        />
-        Used - Fair
-      </label>
+      <div class="condition-options">
+        <label
+          class="checkbox-container"
+          *ngFor="let condition of ['New', 'Like New', 'Good', 'Fair']"
+        >
+          <input
+            type="checkbox"
+            #conditionCheckbox
+            [checked]="filters.condition?.includes(condition)"
+            (change)="onConditionChange(condition, conditionCheckbox.checked)"
+          />
+          <span class="checkmark"></span>
+          {{ condition }}
+        </label>
+      </div>
     </div>
   </aside>
 
   <div class="items-wrapper">
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" *ngIf="isLoading">
+      <div class="spinner"></div>
+    </div>
+
     <!-- Categories -->
     <section class="categories">
       <div class="category-scroll">
         <div
           class="category-item"
           *ngFor="let category of categories"
-          [class.active]="filters.category === category"
+          [class.active]="
+            (category === 'All Items' && !filters.category) ||
+            filters.category === category
+          "
           (click)="onCategoryChange(category)"
         >
           {{ category }}
@@ -76,13 +86,42 @@
     </section>
 
     <!-- Items Grid -->
-    <section class="items-grid">
-      <app-item-card *ngFor="let item of items" [item]="item">
-      </app-item-card>
+    <section class="items-grid" [class.is-loading]="isLoading">
+      <ng-container *ngIf="items.length > 0; else noItems">
+        <app-item-card
+          *ngFor="let item of items; trackBy: trackByItemId"
+          [item]="item"
+        >
+        </app-item-card>
+      </ng-container>
+
+      <ng-template #noItems>
+        <div class="no-items">
+          <i class="fas fa-search"></i>
+          <p>No items found</p>
+          <button
+            class="clear-filters-btn"
+            *ngIf="hasFilters"
+            (click)="clearFilters()"
+          >
+            Clear Filters
+          </button>
+        </div>
+      </ng-template>
     </section>
   </div>
+
+  <!-- Mobile Filter Toggle -->
+  <button class="filter-toggle" id="filterToggle" (click)="toggleMobileFilters()">
+    <i class="fas fa-filter"></i>
+  </button>
 </main>
 
-<button class="filter-toggle" id="filterToggle">
-  <i class="fas fa-filter"></i>
-</button>
+<!-- Error Notification at Bottom Right -->
+<div class="error-notification" *ngIf="error">
+  <i class="fas fa-exclamation-circle"></i>
+  {{ error }}
+  <button class="close-btn" (click)="error = null">
+    <i class="fas fa-times"></i>
+  </button>
+</div>

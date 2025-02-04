@@ -1,165 +1,125 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, forkJoin } from 'rxjs';
 import { Item, ItemFilters } from '../../shared/models/item.interface';
+import { User } from '../../shared/models/user.interface';
+import { map, switchMap } from 'rxjs/operators';
+import { environment } from '../../environment/environment.dev';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ItemsService {
-  private mockItems: Item[] = [
-    {
-      id: 1,
-      title: 'MacBook Pro 16" M2 Pro (2023)',
-      price: 1999,
-      images: [
-        'assets/images/item-placeholder.jpg',
-        'assets/images/item-placeholder.jpg',
-        'assets/images/item-placeholder.jpg',
-      ],
-      location: 'Tetouan',
-      description:
-        'Selling my MacBook Pro 16" with M2 Pro chip. Purchased in early 2023, barely used and in perfect condition.',
-      category: 'Electronics',
-      condition: 'Like New',
-      seller: {
-        name: 'John Smith',
-        rating: 4.9,
-        reviewCount: 212,
-        avatarUrl: 'assets/images/default-avatar.jpeg',
-      },
-    },
-    {
-      id: 2,
-      title: 'Sony WH-1000XM5 Wireless Headphones',
-      price: 349,
-      images: [
-        'assets/images/item-placeholder.jpg',
-        'assets/images/item-placeholder.jpg',
-        'assets/images/item-placeholder.jpg',
-      ],
-      location: 'Tangier',
-      description:
-        'Latest model of Sony noise-canceling headphones. Used for a couple of months, still in excellent condition.',
-      category: 'Electronics',
-      condition: 'New',
-      seller: {
-        name: 'Jane Doe',
-        rating: 4.8,
-        reviewCount: 158,
-        avatarUrl: 'assets/images/default-avatar.jpeg',
-      },
-    },
-    {
-      id: 3,
-      title: 'Nintendo Switch OLED (2022)',
-      price: 299,
-      images: [
-        'assets/images/item-placeholder.jpg',
-        'assets/images/item-placeholder.jpg',
-        'assets/images/item-placeholder.jpg',
-      ],
-      location: 'Casablanca',
-      description:
-        'Nintendo Switch OLED model with a few games included. Perfect working condition, minor cosmetic scratches.',
-      category: 'Electronics',
-      condition: 'Good',
-      seller: {
-        name: 'Michael Green',
-        rating: 4.7,
-        reviewCount: 85,
-        avatarUrl: 'assets/images/default-avatar.jpeg',
-      },
-    },
-    {
-      id: 4,
-      title: 'Dell XPS 13 (2023)',
-      price: 1299,
-      images: [
-        'assets/images/item-placeholder.jpg',
-        'assets/images/item-placeholder.jpg',
-        'assets/images/item-placeholder.jpg',
-      ],
-      location: 'Marrakech',
-      description:
-        'Lightly used Dell XPS 13 laptop, latest 2023 model. Comes with original box and accessories.',
-      category: 'Electronics',
-      condition: 'Fair',
-      seller: {
-        name: 'Linda Brown',
-        rating: 4.6,
-        reviewCount: 64,
-        avatarUrl: 'assets/images/default-avatar.jpeg',
-      },
-    },
-  ];
-  private categories: string[] = [
-    'All Items',
-    'Vehicles',
-    'Electronics',
-    'Furniture',
-    'Fashion',
-    'Real Estate',
-    'Sports',
-    'Games',
-  ];
+  private itemsUrl = `${environment.apiUrl}/items`;
+  private categoriesUrl = `${environment.apiUrl}/categories`;
+  private locationsUrl = `${environment.apiUrl}/locations`;
+  private usersUrl = `${environment.apiUrl}/users`;
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  getItemById(id: number): Item {
-    const item = this.mockItems.find((p) => p.id === id);
-    if (!item) {
-      throw new Error('Item not found');
-    }
-    return item;
+  /**
+   * Retrieves an item by its ID along with seller details.
+   * @param id - The ID of the item.
+   * @returns Observable<Item>
+   */
+  getItemById(id: number): Observable<Item> {
+    return this.http.get<Item>(`${this.itemsUrl}/${id}`).pipe(
+      switchMap((item) => {
+        return this.http.get<User>(`${this.usersUrl}/${item.sellerId}`).pipe(
+          map((seller) => {
+            return { ...item, seller };
+          })
+        );
+      })
+    );
   }
 
-  getCategories(): string[] {
-    return this.categories;
+  /**
+   * Retrieves all categories.
+   * @returns Observable<string[]>
+   */
+  getCategories(): Observable<string[]> {
+    return this.http
+      .get<any[]>(this.categoriesUrl)
+      .pipe(map((categories) => categories.map((cat) => cat.name)));
   }
 
-  getItems(filters?: ItemFilters): Item[] {
-    let filteredItems = [...this.mockItems];
+  /**
+   * Retrieves all locations.
+   * @returns Observable<string[]>
+   */
+  getLocations(): Observable<string[]> {
+    return this.http
+      .get<any[]>(this.locationsUrl)
+      .pipe(map((locations) => locations.map((loc) => loc.city)));
+  }
+
+  /**
+   * Retrieves items based on provided filters.
+   * @param filters - The filters to apply.
+   * @returns Observable<Item[]>
+   */
+  getItems(filters?: ItemFilters): Observable<Item[]> {
+    let params = new HttpParams();
 
     if (filters) {
-      if (filters.category && filters.category !== 'All Items') {
-        filteredItems = filteredItems.filter(
-          (p) => p.category === filters.category
-        );
+      if (filters.category) {
+        params = params.set('category', filters.category);
       }
 
-      if (filters.minPrice) {
-        filteredItems = filteredItems.filter(
-          (p) => p.price >= filters.minPrice!
-        );
+      if (filters.minPrice != null) {
+        params = params.set('price_gte', filters.minPrice.toString());
       }
 
-      if (filters.maxPrice) {
-        filteredItems = filteredItems.filter(
-          (p) => p.price <= filters.maxPrice!
-        );
+      if (filters.maxPrice != null) {
+        params = params.set('price_lte', filters.maxPrice.toString());
       }
 
       if (filters.condition && filters.condition.length > 0) {
-        filteredItems = filteredItems.filter((p) =>
-          filters.condition!.includes(p.condition)
-        );
+        filters.condition.forEach((cond) => {
+          params = params.append('condition', cond);
+        });
       }
 
-      if (filters.searchQuery && filters.searchQuery.trim()) {
-        const query = filters.searchQuery.toLowerCase().trim();
-        filteredItems = filteredItems.filter(
-          (p) =>
-            p.title.toLowerCase().includes(query) ||
-            p.description.toLowerCase().includes(query) ||
-            p.category.toLowerCase().includes(query)
-        );
+      if (filters.searchQuery !=null) {
+        params = params.set('q', filters.searchQuery.trim());
       }
+
       if (filters.location) {
-        filteredItems = filteredItems.filter(
-          (p) => p.location === filters.location
-        );
+        params = params.set('location', filters.location);
+      }
+
+      if(filters.sort) {
+        params = params.set('sort', filters.sort)
       }
     }
+    return this.http.get<Item[]>(this.itemsUrl, { params });
+  }
 
-    return filteredItems;
+  /**
+   * Adds a new item.
+   * @param item - The item to add.
+   * @returns Observable<Item>
+   */
+  addItem(item: Item): Observable<Item> {
+    return this.http.post<Item>(this.itemsUrl, item);
+  }
+
+  /**
+   * Updates an existing item.
+   * @param item - The item with updated data.
+   * @returns Observable<Item>
+   */
+  updateItem(item: Item): Observable<Item> {
+    return this.http.put<Item>(`${this.itemsUrl}/${item.id}`, item);
+  }
+
+  /**
+   * Deletes an item by its ID.
+   * @param id - The ID of the item to delete.
+   * @returns Observable<void>
+   */
+  deleteItem(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.itemsUrl}/${id}`);
   }
 }

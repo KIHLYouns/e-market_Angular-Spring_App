@@ -1,7 +1,7 @@
 {
   "items": [
     {
-      "id": 1,
+      "id": "1",
       "title": "MacBook Pro 16\" M2 Pro (2023)",
       "price": 1999,
       "images": [
@@ -23,7 +23,7 @@
       ]
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "Sony WH-1000XM5",
       "price": 349,
       "images": [
@@ -43,7 +43,7 @@
       ]
     },
     {
-      "id": 3,
+      "id": "3",
       "title": "Toyota Corolla 2022",
       "price": 4999,
       "images": [
@@ -63,7 +63,7 @@
       ]
     },
     {
-      "id": 4,
+      "id": "4",
       "title": "Nike Air Max 2023",
       "price": 120,
       "images": [
@@ -83,7 +83,7 @@
       ]
     },
     {
-      "id": 5,
+      "id": "5",
       "title": "Canon EOS R5 Camera",
       "price": 3899,
       "images": [
@@ -98,10 +98,13 @@
       "createdAt": "2024-03-17T14:00:00Z",
       "views": 60,
       "sellerId": 2,
-      "savedBy": [1, 3]
+      "savedBy": [
+        1,
+        3
+      ]
     },
     {
-      "id": 6,
+      "id": "6",
       "title": "Bose SoundLink Revolve",
       "price": 199,
       "images": [
@@ -116,18 +119,21 @@
       "createdAt": "2024-03-18T09:30:00Z",
       "views": 30,
       "sellerId": 3,
-      "savedBy": [1, 2]
+      "savedBy": [
+        1,
+        2
+      ]
     }
   ],
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "username": "kihl_youns",
       "email": "kihl.youns@example.com",
       "fullName": "Kihl Youns",
       "avatar": "assets/images/default-avatar.jpeg",
       "bio": "Passionate about buying and selling unique items. Always looking for great deals!",
-      "location": "Tetouan",
+      "location": "Tetouan ",
       "joinDate": "2024-01-01T00:00:00Z",
       "listings": {
         "active": 2,
@@ -142,7 +148,7 @@
       }
     },
     {
-      "id": 2,
+      "id": "2",
       "username": "jane_doe",
       "email": "jane.doe@example.com",
       "fullName": "Jane Doe",
@@ -163,7 +169,7 @@
       }
     },
     {
-      "id": 3,
+      "id": "3",
       "username": "john_smith",
       "email": "john.smith@example.com",
       "fullName": "John Smith",
@@ -184,7 +190,7 @@
       }
     },
     {
-      "id": 4,
+      "id": "4",
       "username": "alice_wonder",
       "email": "alice.wonder@example.com",
       "fullName": "Alice Wonder",
@@ -196,7 +202,10 @@
         "active": 1,
         "sold": 0
       },
-      "savedItems": [1, 5],
+      "savedItems": [
+        1,
+        5
+      ],
       "ratings": {
         "average": 4.9,
         "count": 10
@@ -205,33 +214,33 @@
   ],
   "categories": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Electronics"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Vehicles"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Fashion"
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Home & Garden"
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "Sports & Outdoors"
     },
     {
-      "id": 6,
+      "id": "6",
       "name": "Other"
     }
   ],
   "reviews": [
     {
-      "id": 1,
+      "id": "1",
       "reviewerId": 2,
       "sellerId": 1,
       "rating": 5,
@@ -240,7 +249,7 @@
       "createdAt": "2024-03-16T09:20:00Z"
     },
     {
-      "id": 2,
+      "id": "2",
       "reviewerId": 1,
       "sellerId": 2,
       "rating": 4,
@@ -249,7 +258,7 @@
       "createdAt": "2024-03-17T10:00:00Z"
     },
     {
-      "id": 3,
+      "id": "3",
       "reviewerId": 3,
       "sellerId": 2,
       "rating": 5,
@@ -258,7 +267,7 @@
       "createdAt": "2024-03-18T12:00:00Z"
     },
     {
-      "id": 4,
+      "id": "4",
       "reviewerId": 4,
       "sellerId": 1,
       "rating": 5,
@@ -269,44 +278,198 @@
   ],
   "locations": [
     {
-      "id": 1,
+      "id": "1",
       "city": "Tetouan"
     },
     {
-      "id": 2,
+      "id": "2",
       "city": "Tangier"
     },
     {
-      "id": 3,
+      "id": "3",
       "city": "Casablanca"
     },
     {
-      "id": 4,
+      "id": "4",
       "city": "Rabat"
     },
     {
-      "id": 5,
+      "id": "5",
       "city": "Marrakech"
     },
     {
-      "id": 6,
+      "id": "6",
       "city": "Agadir"
     },
     {
-      "id": 7,
+      "id": "7",
       "city": "Fes"
     },
     {
-      "id": 8,
+      "id": "8",
       "city": "Laayoune"
     },
     {
-      "id": 9,
+      "id": "9",
       "city": "Kenitra"
     },
     {
-      "id": 10,
+      "id": "10",
       "city": "Mohammedia"
+    }
+  ],
+  "conversations": [
+    {
+      "id": "1",
+      "participants": [
+        {
+          "id": 1,
+          "username": "kihl_youns",
+          "avatar": "assets/images/default-avatar.jpeg"
+        },
+        {
+          "id": 2,
+          "username": "sarah_ahmed",
+          "avatar": "assets/images/default-avatar.jpeg"
+        }
+      ],
+      "lastMessage": {
+        "id": 3,
+        "content": "When can you ship the MacBook?",
+        "senderId": 2,
+        "timestamp": "2025-02-01T14:30:00Z"
+      },
+      "unreadCount": 1,
+      "updatedAt": "2025-02-01T14:30:00Z"
+    },
+    {
+      "id": "2",
+      "participants": [
+        {
+          "id": 1,
+          "username": "kihl_youns",
+          "avatar": "assets/images/default-avatar.jpeg"
+        },
+        {
+          "id": 3,
+          "username": "mohamed_ali",
+          "avatar": "assets/images/default-avatar.jpeg"
+        }
+      ],
+      "lastMessage": {
+        "id": 5,
+        "content": "Is the price negotiable?",
+        "senderId": 3,
+        "timestamp": "2025-02-01T15:45:00Z"
+      },
+      "unreadCount": 0,
+      "updatedAt": "2025-02-01T15:45:00Z"
+    }
+  ],
+  "messages": [
+    {
+      "id": "1",
+      "conversationId": 1,
+      "senderId": 1,
+      "content": "Hi, I'm interested in your MacBook Pro listing",
+      "timestamp": "2025-02-01T14:15:00Z",
+      "read": true
+    },
+    {
+      "id": "2",
+      "conversationId": 1,
+      "senderId": 2,
+      "content": "Hello! Yes, it's still available",
+      "timestamp": "2025-02-01T14:20:00Z",
+      "read": true
+    },
+    {
+      "id": "3",
+      "conversationId": 1,
+      "senderId": 2,
+      "content": "When can you ship the MacBook?",
+      "timestamp": "2025-02-01T14:30:00Z",
+      "read": true
+    },
+    {
+      "id": "4",
+      "conversationId": 2,
+      "senderId": 3,
+      "content": "Hello, I saw your Toyota Corolla listing",
+      "timestamp": "2025-02-01T15:40:00Z",
+      "read": true
+    },
+    {
+      "id": "5",
+      "conversationId": 2,
+      "senderId": 3,
+      "content": "Is the price negotiable?",
+      "timestamp": "2025-02-01T15:45:00Z",
+      "read": true
+    },
+    {
+      "id": "d501",
+      "conversationId": "2",
+      "content": "Yes it's negotiable",
+      "senderId": 1,
+      "timestamp": "2025-02-02T00:52:27.881Z",
+      "read": false
+    },
+    {
+      "id": "b3d1",
+      "conversationId": "2",
+      "content": "Yes it's negotiable",
+      "senderId": 1,
+      "timestamp": "2025-02-02T00:53:03.329Z",
+      "read": false
+    },
+    {
+      "id": "aced",
+      "conversationId": "2",
+      "content": "Yes it negotiable",
+      "senderId": 1,
+      "timestamp": "2025-02-02T00:53:30.869Z",
+      "read": false
+    },
+    {
+      "id": "6c1f",
+      "conversationId": "2",
+      "content": "Yes it negotiable",
+      "senderId": 1,
+      "timestamp": "2025-02-02T00:57:33.089Z",
+      "read": false
+    },
+    {
+      "id": "4ac9",
+      "conversationId": "2",
+      "content": "Yes it is",
+      "senderId": 1,
+      "timestamp": "2025-02-02T01:25:44.767Z",
+      "read": false
+    },
+    {
+      "id": "a3c9",
+      "conversationId": "2",
+      "content": "Yes it is",
+      "senderId": 1,
+      "timestamp": "2025-02-02T01:34:38.637Z",
+      "read": false
+    },
+    {
+      "id": "de3e",
+      "conversationId": "1",
+      "content": "Yes it is",
+      "senderId": 1,
+      "timestamp": "2025-02-02T01:55:52.363Z",
+      "read": false
+    },
+    {
+      "id": "283b",
+      "conversationId": "1",
+      "content": "Yes it is",
+      "senderId": 1,
+      "timestamp": "2025-02-03T23:38:12.116Z",
+      "read": false
     }
   ]
 }

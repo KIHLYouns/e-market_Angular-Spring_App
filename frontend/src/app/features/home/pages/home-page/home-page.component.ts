@@ -1,26 +1,39 @@
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { ItemsService } from '../../../../core/services/items.service';
-import { ItemCardComponent } from '../../../../shared/components/item-card/item-card.component';
-import { Item, ItemFilters } from '../../../../shared/models/item.interface';
 import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { takeUntil, debounceTime } from 'rxjs/operators';
+import { CategoryListComponent } from '../../components/category-list/category-list.component';
+import { FilterSidebarComponent } from '../../components/filter-sidebar/filter-sidebar.component';
+import { ItemsGridComponent } from '../../components/items-grid/items-grid.component';
+import { ItemsService } from '../../../../core/services/items.service';
 import { FiltersService } from '../../../../core/services/filters.service';
+import { Item, ItemFilters } from '../../../../shared/models/item.interface';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [ItemCardComponent, CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    CategoryListComponent,
+    FilterSidebarComponent,
+    ItemsGridComponent,
+  ],
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css'],
 })
 export class HomePageComponent implements OnInit, OnDestroy {
   items: Item[] = [];
   categories: string[] = [];
-  filters: ItemFilters;
-  isMobileFiltersOpen: boolean = false;
+  filters: ItemFilters = {
+    category: '',
+    minPrice: undefined,
+    maxPrice: undefined,
+    condition: [],
+    searchQuery: '',
+    location: '',
+    sort: '',
+  };
+  isMobileFiltersOpen = false;
   isLoading = false;
   error: string | null = null;
 
@@ -28,36 +41,42 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   constructor(
     private itemsService: ItemsService,
-    private route: ActivatedRoute,
     private filtersService: FiltersService
-  ) {
-    this.filters = this.filtersService.getFilters();
-  }
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadCategories();
-
-    // Subscribe to filter changes (persisted via header) and load items
-    this.filtersService.filters$
-      .pipe(
-        debounceTime(300),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((updatedFilters) => {
-        this.filters = updatedFilters;
-        this.loadItems();
-      });
+    this.subscribeToFiltersChanges();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
-  /**
-   * Fetch items based on the current filters.
-   */
-  loadItems() {
+  private subscribeToFiltersChanges(): void {
+    this.filtersService.filters$
+      .pipe(debounceTime(300), takeUntil(this.destroy$))
+      .subscribe((filters) => {
+        this.filters = filters;
+        this.loadItems();
+      });
+  }
+
+  private loadCategories(): void {
+    this.itemsService
+      .getCategories()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (categories) => (this.categories = ['All Items', ...categories]),
+        error: (error) => {
+          console.error('Error loading categories:', error);
+          this.error = 'Failed to load categories';
+        },
+      });
+  }
+
+  private loadItems(): void {
     this.isLoading = true;
     this.error = null;
 
@@ -70,94 +89,35 @@ export class HomePageComponent implements OnInit, OnDestroy {
           this.isLoading = false;
         },
         error: (error) => {
-          this.error = 'Failed to load Items. Please try again.';
+          console.error('Error loading items:', error);
+          this.error = 'Failed to load items';
           this.isLoading = false;
-          console.error('Error fetching items:', error);
         },
       });
   }
 
-  /**
-   * Fetch all categories and prepend 'All Items'.
-   */
-  loadCategories() {
-    this.itemsService
-      .getCategories()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (categories) =>
-          (this.categories = ['All Items', ...categories]),
-        error: (error) => {
-          this.error = 'Failed to load categories. Please try again.';
-          console.error('Error fetching categories:', error);
-        },
-      });
+  onCategoryChange(category: string): void {
+    this.updateFilters({ category });
   }
 
-  private updateFilters(): void {
+  onFilterChange(newFilters: ItemFilters): void {
+    this.updateFilters(newFilters);
+  }
+
+  private updateFilters(partialFilters: Partial<ItemFilters>): void {
     const newFilters = {
       ...this.filtersService.getFilters(),
-      category: this.filters.category,
-      minPrice: this.filters.minPrice,
-      maxPrice: this.filters.maxPrice,
-      condition: this.filters.condition,
-      sort: this.filters.sort
+      ...partialFilters,
     };
     this.filtersService.setFilters(newFilters);
   }
 
-  /**
-   * Handler for category change.
-   * @param category - The selected category
-   */
-  onCategoryChange(category: string) {
-    this.filters.category = category === 'All Items' ? '' : category;
-    this.updateFilters();
-  }
-
-  /**
-   * Handler for price range change.
-   */
-  onPriceChange(): void {
-    if (this.filters.minPrice && this.filters.maxPrice) {
-      if (this.filters.minPrice > this.filters.maxPrice) {
-        const temp = this.filters.minPrice;
-        this.filters.minPrice = this.filters.maxPrice;
-        this.filters.maxPrice = temp;
-      }
-    }
-    this.updateFilters();
-  }
-
-  /**
-   * Handler for condition filter change.
-   * @param condition - Condition to filter
-   * @param checked - Whether the condition is checked
-   */
-  onConditionChange(condition: string, checked: boolean) {
-    if (!this.filters.condition) {
-      this.filters.condition = [];
-    }
-    if (checked) {
-      this.filters.condition.push(condition);
-    } else {
-      this.filters.condition = this.filters.condition.filter(
-        (c) => c !== condition
-      );
-    }
-    this.updateFilters();
-  }
-
-  onSortChange() {
-    this.updateFilters();
+  clearFilters(): void {
+    this.filtersService.clearFilters();
   }
 
   toggleMobileFilters(): void {
     this.isMobileFiltersOpen = !this.isMobileFiltersOpen;
-  }
-
-  trackByItemId(index: number, item: Item): number {
-    return item.id;
   }
 
   get hasFilters(): boolean {
@@ -170,14 +130,16 @@ export class HomePageComponent implements OnInit, OnDestroy {
     );
   }
 
-  clearFilters() {
-    this.filters = {
-      category: '',
-      minPrice: undefined,
-      maxPrice: undefined,
-      condition: [],
-      sort: '',
-    };
-    this.updateFilters();
+  get isMobile(): boolean {
+    return window.innerWidth <= 768;
+  }
+
+  get activeFiltersCount(): number {
+    let count = 0;
+    if (this.filters.category) count++;
+    if (this.filters.minPrice || this.filters.maxPrice) count++;
+    if (this.filters.condition?.length) count++;
+    if (this.filters.sort) count++;
+    return count;
   }
 }

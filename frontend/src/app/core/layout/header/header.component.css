@@ -20,7 +20,9 @@
   font-weight: 600;
   font-size: var(--font-size-2xl);
   color: var(--color-black);
-  text-decoration: none
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .logo i {
@@ -29,7 +31,7 @@
 }
 
 .logo span {
-  letter-spacing: -.02em
+  letter-spacing: -.02em;
 }
 
 .header-center {

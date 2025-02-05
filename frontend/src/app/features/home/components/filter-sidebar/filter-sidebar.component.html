@@ -1,0 +1,68 @@
+<aside class="filters" [class.active]="isOpen" [class.mobile]="isMobile">
+  <div class="filters-header">
+    <h3>Filters</h3>
+    <button class="close-btn" *ngIf="isMobile" (click)="toggleMobile.emit()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <!-- Price Filter -->
+  <div class="filter-section">
+    <h4>Price Range</h4>
+    <div class="price-inputs">
+      <input
+        type="number"
+        [(ngModel)]="filters.minPrice"
+        (ngModelChange)="onPriceChange()"
+        placeholder="Min"
+        min="0"
+      />
+      <span>to</span>
+      <input
+        type="number"
+        [(ngModel)]="filters.maxPrice"
+        (ngModelChange)="onPriceChange()"
+        placeholder="Max"
+        min="0"
+      />
+    </div>
+  </div>
+
+  <!-- Condition Filter -->
+  <div class="filter-section">
+    <h4>Condition</h4>
+    <div class="condition-options">
+      <label *ngFor="let condition of conditions" class="checkbox-container">
+        <input
+          type="checkbox"
+          #conditionCheckbox
+          [checked]="filters.condition?.includes(condition)"
+          (change)="onConditionChange(condition, conditionCheckbox.checked)"
+        />
+        <span class="checkmark"></span>
+        {{ condition }}
+      </label>
+    </div>
+  </div>
+
+  <!-- Sort Filter -->
+  <div class="filter-section">
+    <h4>Sort By</h4>
+    <select
+      #sortSelect
+      (change)="onSortChange(sortSelect.value)"
+      [value]="filters.sort"
+    >
+      <option value="">Select...</option>
+      <option *ngFor="let option of sortOptions" [value]="option.value">
+        {{ option.label }}
+      </option>
+    </select>
+  </div>
+
+  <div class="filters-footer" *ngIf="hasActiveFilters()">
+    <button class="clear-filters-btn" (click)="clearFilters.emit()">
+      Clear All
+    </button>
+  </div>
+</aside>

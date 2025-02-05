@@ -1,0 +1,27 @@
+<section class="items-grid" [class.is-loading]="isLoading">
+  <ng-container *ngIf="items.length > 0; else noItems">
+    <app-item-card
+      *ngFor="let item of items; trackBy: trackByItemId"
+      [item]="item"
+    >
+    </app-item-card>
+  </ng-container>
+
+  <ng-template #noItems>
+    <div class="no-items">
+      <i class="fas fa-search"></i>
+      <p>{{ error || "No items found" }}</p>
+      <button
+        *ngIf="hasFilters"
+        class="clear-filters-btn"
+        (click)="onClearFilters()"
+      >
+        Clear Filters
+      </button>
+    </div>
+  </ng-template>
+
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="spinner"></div>
+  </div>
+</section>

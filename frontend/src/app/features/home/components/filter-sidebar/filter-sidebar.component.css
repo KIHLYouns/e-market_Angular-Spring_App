@@ -1,0 +1,119 @@
+.filters {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+.filters-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.filters-header h3 {
+  margin: 0;
+  color: var(--color-black);
+  font-size: 1.1rem;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: var(--color-sage);
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.filter-section {
+  margin-bottom: 1rem;
+}
+
+.filter-section h4 {
+  color: var(--color-sage);
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.price-inputs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.price-inputs input {
+  flex: 1;
+  width: 100%;
+  padding: 0.5rem;
+  border: 1.5px solid var(--color-sage-dark);
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.condition-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: var(--color-black);
+  font-size: 0.9rem;
+}
+
+input[type="checkbox"] {
+  accent-color: var(--color-yellow-dark);
+}
+
+select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1.5px solid var(--color-sage-dark);
+  border-radius: 4px;
+  background: #fff;
+  font-size: 0.9rem;
+  color: var(--color-black);
+}
+
+.filters-footer {
+  text-align: center;
+}
+
+.clear-filters-btn {
+  padding: 0.5rem;
+  background: var(--color-yellow);
+  border: none;
+  border-radius: 4px;
+  color: var(--color-black);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.clear-filters-btn:hover {
+  background: var(--color-yellow-dark);
+}
+
+@media (max-width: 768px) {
+  .filters.mobile {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    /* height: calc(100vh - 190px); */
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+    overflow-y: auto;
+  }
+
+  .filters.mobile.active {
+    transform: translateY(0);
+  }
+}

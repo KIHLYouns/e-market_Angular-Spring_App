@@ -1,127 +1,43 @@
-<main class="main-content">
-  <aside
-    class="filters"
-    [class.active]="isMobileFiltersOpen"
-    [class.has-filters]="hasFilters"
-  >
-    <div class="filters-header">
-      <h3>Filters</h3>
-      <button
-        *ngIf="hasFilters"
-        class="clear-filters-btn"
-        (click)="clearFilters()"
-      >
-        Clear All
-      </button>
-    </div>
+<main class="home-container">
+  <app-category-list
+    [categories]="categories"
+    [selectedCategory]="filters.category || 'All Items'"
+    (categoryChange)="onCategoryChange($event)"
+  />
 
-    <!-- Price Filter -->
-    <div class="filter-section">
-      <h4>Price Range</h4>
-      <div class="price-inputs">
-        <div class="input-group">
-          <input
-            type="number"
-            [(ngModel)]="filters.minPrice"
-            (input)="onPriceChange()"
-            placeholder="Min"
-            min="0"
-          />
-        </div>
-        <span class="separator">to</span>
-        <div class="input-group">
-          <input
-            type="number"
-            [(ngModel)]="filters.maxPrice"
-            (input)="onPriceChange()"
-            placeholder="Max"
-            min="0"
-          />
-        </div>
-      </div>
-    </div>
+  <div class="content-wrapper">
+    <app-filter-sidebar
+      [filters]="filters"
+      [isMobile]="isMobile"
+      [isOpen]="isMobileFiltersOpen"
+      (filterChange)="onFilterChange($event)"
+      (clearFilters)="clearFilters()"
+      (toggleMobile)="toggleMobileFilters()"
+    />
 
-    <!-- Condition Filter -->
-    <div class="filter-section">
-      <h4>Condition</h4>
-      <div class="condition-options">
-        <label
-          class="checkbox-container"
-          *ngFor="let condition of ['New', 'Like New', 'Good', 'Fair']"
-        >
-          <input
-            type="checkbox"
-            #conditionCheckbox
-            [checked]="filters.condition?.includes(condition)"
-            (change)="onConditionChange(condition, conditionCheckbox.checked)"
-          />
-          <span class="checkmark"></span>
-          {{ condition }}
-        </label>
-      </div>
-    </div>
-  </aside>
-
-  <div class="items-wrapper">
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" *ngIf="isLoading">
-      <div class="spinner"></div>
-    </div>
-
-    <!-- Categories -->
-    <section class="categories">
-      <div class="category-scroll">
-        <div
-          class="category-item"
-          *ngFor="let category of categories"
-          [class.active]="
-            (category === 'All Items' && !filters.category) ||
-            filters.category === category
-          "
-          (click)="onCategoryChange(category)"
-        >
-          {{ category }}
-        </div>
-      </div>
-    </section>
-
-    <!-- Items Grid -->
-    <section class="items-grid" [class.is-loading]="isLoading">
-      <ng-container *ngIf="items.length > 0; else noItems">
-        <app-item-card
-          *ngFor="let item of items; trackBy: trackByItemId"
-          [item]="item"
-        >
-        </app-item-card>
-      </ng-container>
-
-      <ng-template #noItems>
-        <div class="no-items">
-          <i class="fas fa-search"></i>
-          <p>No items found</p>
-          <button
-            class="clear-filters-btn"
-            *ngIf="hasFilters"
-            (click)="clearFilters()"
-          >
-            Clear Filters
-          </button>
-        </div>
-      </ng-template>
-    </section>
+    <app-items-grid
+      [items]="items"
+      [isLoading]="isLoading"
+      [error]="error"
+      [hasFilters]="hasFilters"
+      (clearFilters)="clearFilters()"
+    />
   </div>
 
-  <!-- Mobile Filter Toggle -->
-  <button class="filter-toggle" id="filterToggle" (click)="toggleMobileFilters()">
+  <button
+    *ngIf="isMobile && !isMobileFiltersOpen"
+    class="filter-toggle"
+    (click)="toggleMobileFilters()"
+  >
     <i class="fas fa-filter"></i>
+    <span class="filter-count" *ngIf="activeFiltersCount">
+      {{ activeFiltersCount }}
+    </span>
   </button>
-</main>
 
-<!-- Error Notification at Bottom Right -->
-<div class="error-notification" *ngIf="error">
-  <i class="fas fa-exclamation-circle"></i>
-  {{ error }}
-  <button class="close-btn" (click)="error = null">
-    <i class="fas fa-times"></i>
-  </button>
-</div>
+  <div
+    class="overlay"
+    *ngIf="isMobile && isMobileFiltersOpen"
+    (click)="toggleMobileFilters()"
+  ></div>
+</main>

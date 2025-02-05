@@ -1,0 +1,12 @@
+<section class="categories">
+  <div class="category-scroll">
+    <div
+      *ngFor="let category of categories; trackBy: trackByCategory"
+      class="category-item"
+      [class.active]="isActive(category)"
+      (click)="onSelect(category)"
+    >
+      {{ category }}
+    </div>
+  </div>
+</section>

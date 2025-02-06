@@ -39,6 +39,8 @@ export class FiltersService {
       minPrice: undefined,
       maxPrice: undefined,
       condition: [],
+      searchQuery: this.filtersSubject.value.searchQuery,
+      location: this.filtersSubject.value.location,
       sort: ''
     };
     this.setFilters(initialFilters);

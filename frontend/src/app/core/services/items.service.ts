@@ -81,7 +81,7 @@ export class ItemsService {
         });
       }
 
-      if (filters.searchQuery !=null) {
+      if (filters.searchQuery != null) {
         params = params.set('q', filters.searchQuery.trim());
       }
 
@@ -92,14 +92,14 @@ export class ItemsService {
       if (filters.sort) {
         switch (filters.sort) {
           case 'latest':
-        params = params.set('_sort', 'createdAt').set('_order', 'desc');
-        break;
+            params = params.set('_sort', 'createdAt').set('_order', 'desc');
+            break;
           case 'price_low':
-        params = params.set('_sort', 'price').set('_order', 'asc');
-        break;
+            params = params.set('_sort', 'price').set('_order', 'asc');
+            break;
           case 'price_high':
-        params = params.set('_sort', 'price').set('_order', 'desc');
-        break;
+            params = params.set('_sort', 'price').set('_order', 'desc');
+            break;
         }
       }
     }
